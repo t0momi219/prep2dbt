@@ -1,0 +1,6 @@
+click>=8.1.7
+networkx>=3.2.1
+pandas>=2.1.4
+ruamel.yaml>=0.18.5
+snowflake-sqlalchemy>=1.5.1
+sqlalchemy[mypy]>=1.4.50

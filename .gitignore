@@ -1,3 +1,13 @@
+Pipfile
+Pipfile.lock
+outputs
+tmp
+tmp.zip
+dbt
+
+.python-version
+.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
