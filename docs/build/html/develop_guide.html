@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html  lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>開発者ガイド</title>
+    
+          <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="_static/documentation_options.js?v=565b5f0b"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/translations.js?v=4dbe4bdc"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="_static/theme-vendors.js"></script> -->
+      <script src="_static/theme.js" defer></script>
+    
+  <link rel="index" title="索引" href="genindex.html" />
+  <link rel="search" title="検索" href="search.html" />
+  <link rel="prev" title="WriteToHyper（出力）" href="converters/write_to_hyper.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="index.html" class="home-link">
+    
+      <span class="site-name">prep2dbt</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">クイック検索</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="検索" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="index.html#welcome-to-prep2dbt-s-documentation">Contents:</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="overviews.html" class="reference internal ">概要</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="quickstart.html" class="reference internal ">クイックスタート</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="requirements_and_install.html" class="reference internal ">前提条件とインストール方法</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="command_usage.html" class="reference internal ">コマンドの使い方</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="convert_subcommand/convert_index.html" class="reference internal ">dbtモデル変換</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="describe_subcommand.html" class="reference internal ">統計情報の出力</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="converters/converters_index.html" class="reference internal ">コンバーター</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current">
+            
+              <a href="#" class="reference internal current">開発者ガイド</a>
+            
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#id2" class="reference internal">カスタムコンバーターの追加</a></li>
+                
+                  <li class="toctree-l2"><a href="#id4" class="reference internal">テスト</a></li>
+                
+                  <li class="toctree-l2"><a href="#id5" class="reference internal">型チェックの実行</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+    
+    <li>開発者ガイド</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="converters/write_to_hyper.html"
+       title="前の章へ">← WriteToHyper（出力）</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="id1">
+<h1>開発者ガイド<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<section id="id2">
+<h2>カスタムコンバーターの追加<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>本ツールで対応していないステップのために、カスタムのコンバータークラスを
+追加する方法を説明します。</p>
+<section id="mixin">
+<h3>Mixin<a class="headerlink" href="#mixin" title="Link to this heading">¶</a></h3>
+<p>ステップの変換で共通的に行われる操作をまとめたミックスインクラスを提供しています。
+このミックスインクラスを継承すれば、簡単にコンバーターを追加できます。</p>
+<section id="annotationmixin">
+<h4>AnnotationMixin<a class="headerlink" href="#annotationmixin" title="Link to this heading">¶</a></h4>
+<p>AnnotationMixinは、<a class="reference internal" href="convert_subcommand/sqls.html"><span class="doc">SQLの生成</span></a> で説明されている共通処理を提供します。</p>
+<p>以下に示すメソッドを実装してください。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">prep2dbt.converters.mixins.annotation_mixin</span> <span class="kn">import</span> <span class="n">AnnotationMixin</span>
+
+<span class="k">class</span> <span class="nc">CustomConverter</span><span class="p">(</span><span class="n">AnnotationMixin</span><span class="p">):</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">node_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">perform_generate_graph</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">node_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DAG</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">perform_calculate_columns</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">node_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">graph</span><span class="p">:</span> <span class="n">DAG</span><span class="p">,</span>
+        <span class="n">parent_columns</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ModelColumns</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelColumns</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">perform_generate_sql</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">node_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">graph</span><span class="p">:</span> <span class="n">DAG</span><span class="p">,</span>
+        <span class="n">pre_stmts</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CTE</span><span class="p">],</span>
+        <span class="n">pre_columns</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ModelColumns</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CTE</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>validate</p></li>
+</ul>
+<p>与えられたステップが、変換可能なフォーマットになっているかどうか確認します。</p>
+<p>もし変換できないフォーマットだった場合には、 <code class="docutils literal notranslate"><span class="pre">UnknownNodeException</span></code> を送出してください。
+未知のステップとして、 <code class="docutils literal notranslate"><span class="pre">UnknownConverter</span></code> に処理をフォールバックします。</p>
+<ul class="simple">
+<li><p>perform_generate_graph</p></li>
+</ul>
+<p>与えられたステップをグラフに変換します。このメソッドで生成されたグラフは、サブグラフとしてフロー全体のグラフの一部として取り込まれます。</p>
+<p>たとえば以下のステップなら、ステップに対応するグラフのノードと、 <code class="docutils literal notranslate"><span class="pre">nextNodes</span></code> から作られるエッジをまとめたサブグラフを
+返却することになります。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;906b692f-8aba-4592-b073-a91832e452e3&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nextNodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;nextNodeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="nt">&quot;e7eb3a16-c537-405b-bc55-06be5246f6e0&quot;</span>
+<span class="w">      </span><span class="nt">&quot;nextNamespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/perform_generate_graph.drawio.png"><img alt="_images/perform_generate_graph.drawio.png" class="align-center" src="_images/perform_generate_graph.drawio.png" style="width: 600px;" /></a>
+<p>もしグラフ作成に失敗した場合には、 <code class="docutils literal notranslate"><span class="pre">UnknownNodeException</span></code> を送出してください。
+未知のステップとして、 <code class="docutils literal notranslate"><span class="pre">UnknownConverter</span></code> に処理をフォールバックします。</p>
+<ul class="simple">
+<li><p>perform_calculate_columns</p></li>
+</ul>
+<p>カラム定義を計算します。 <code class="docutils literal notranslate"><span class="pre">parent_columns</span></code> 引数には、
+<code class="docutils literal notranslate"><span class="pre">beforeActionAnnotations</span></code> の処理で加工されたカラム定義が与えられるので、
+これを更新してください。</p>
+<p>このメソッドの結果は、さらに <code class="docutils literal notranslate"><span class="pre">afterActionAnnotations</span></code> の処理に基づき加工され、最終的なカラム定義となります。</p>
+<p>失敗した場合には、 <code class="docutils literal notranslate"><span class="pre">UnknownNodeException</span></code> を送出してください。
+未知のステップとして、 <code class="docutils literal notranslate"><span class="pre">UnknownConverter</span></code> に処理をフォールバックします。</p>
+<ul class="simple">
+<li><p>perform_generate_sql</p></li>
+</ul>
+<p>SQLに変換します。 <code class="docutils literal notranslate"><span class="pre">pre_stmts</span></code> 引数には、
+<code class="docutils literal notranslate"><span class="pre">beforeActionAnnotations</span></code> の処理で変換されたCTEが含まれるため、これに処理をCTEとして連ねてください。</p>
+<p>このメソッドの結果には、さらに <code class="docutils literal notranslate"><span class="pre">afterActionAnnotations</span></code> の処理がCTEとしてつらなり、最終的なSQLとなります。</p>
+<p>失敗した場合には、 <code class="docutils literal notranslate"><span class="pre">UnknownNodeException</span></code> を送出してください。
+未知のステップとして、 <code class="docutils literal notranslate"><span class="pre">UnknownConverter</span></code> に処理をフォールバックします。</p>
+</section>
+<section id="unknownnodemixin">
+<h4>UnknownNodeMixin<a class="headerlink" href="#unknownnodemixin" title="Link to this heading">¶</a></h4>
+<p>UnknownNodeMixinは、ユーザ定義の変換に失敗した時に <code class="docutils literal notranslate"><span class="pre">UnknownConverter</span></code> へ処理をフォールバックする機能を提供します。</p>
+<p>以下に示すメソッドを実装してください。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">prep2dbt.converters.mixins.unknown_node_mixin</span> <span class="kn">import</span> \
+    <span class="n">UnknownNodeMixin</span>
+
+<span class="k">class</span> <span class="nc">CustomConverter</span><span class="p">(</span><span class="n">UnknownNodeMixin</span><span class="p">):</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">node_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">perform_generate_graph</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">node_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DAG</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">perform_calculate_columns</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">node_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">graph</span><span class="p">:</span> <span class="n">DAG</span><span class="p">,</span>
+        <span class="n">parent_columns</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ModelColumns</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModelColumns</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">perform_generate_dbt_models</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">node_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">graph</span><span class="p">:</span> <span class="n">DAG</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DbtModels</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>validate</p></li>
+</ul>
+<p>与えられたステップが、変換可能なフォーマットになっているかどうか確認します。</p>
+<p>もし変換できないフォーマットだった場合には、 <code class="docutils literal notranslate"><span class="pre">UnknownNodeException</span></code> を送出してください。
+未知のステップとして、 <code class="docutils literal notranslate"><span class="pre">UnknownConverter</span></code> に処理をフォールバックします。</p>
+<ul class="simple">
+<li><p>perform_generate_graph</p></li>
+</ul>
+<p>与えられたステップをグラフに変換します。
+もしグラフ作成に失敗した場合には、 <code class="docutils literal notranslate"><span class="pre">UnknownNodeException</span></code> を送出してください。
+未知のステップとして、 <code class="docutils literal notranslate"><span class="pre">UnknownConverter</span></code> に処理をフォールバックします。</p>
+<ul class="simple">
+<li><p>perform_calculate_columns</p></li>
+</ul>
+<p>カラム定義を計算します。 失敗した場合には、 <code class="docutils literal notranslate"><span class="pre">UnknownNodeException</span></code> を送出してください。
+未知のステップとして、 <code class="docutils literal notranslate"><span class="pre">UnknownConverter</span></code> に処理をフォールバックします。</p>
+<ul class="simple">
+<li><p>perform_generate_sql</p></li>
+</ul>
+<p>SQLに変換します。失敗した場合には、 <code class="docutils literal notranslate"><span class="pre">UnknownNodeException</span></code> を送出してください。
+未知のステップとして、 <code class="docutils literal notranslate"><span class="pre">UnknownConverter</span></code> に処理をフォールバックします。</p>
+</section>
+</section>
+<section id="converter-protocol">
+<h3>Converter Protocol<a class="headerlink" href="#converter-protocol" title="Link to this heading">¶</a></h3>
+<p>ミックスインを使わずにコンバーターを実装する場合、 <code class="docutils literal notranslate"><span class="pre">Converter</span> <span class="pre">Protocol</span></code> クラスで定義される通りの
+インターフェースでクラスを実装してください。</p>
+</section>
+<section id="id3">
+<h3>コンバーターの登録<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p>作成したコンバータークラスは、対応する <code class="docutils literal notranslate"><span class="pre">nodeType</span></code> をキーとして、VersionMappingRegistoryに追加してください。
+これにより、実行時にコンバーターが選択されるようになります。</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">prep2dbt/converters/factory.py</span><a class="headerlink" href="#id6" title="Link to this code">¶</a></div>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VersionMappingRegistory</span><span class="p">:</span>
+    <span class="n">version_converters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">[</span><span class="n">Converter</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;.v1.LoadSql&quot;</span><span class="p">:</span> <span class="n">LoadSqlConverter</span><span class="p">,</span>
+        <span class="s2">&quot;.v2018_2_3.SuperAggregate&quot;</span><span class="p">:</span> <span class="n">SuperAggregateConverter</span><span class="p">,</span>
+        <span class="s2">&quot;.v2018_2_3.SuperJoin&quot;</span><span class="p">:</span> <span class="n">SuperJoinConverter</span><span class="p">,</span>
+        <span class="s2">&quot;.v2018_2_3.SuperTransform&quot;</span><span class="p">:</span> <span class="n">SuperTransformConverter</span><span class="p">,</span>
+        <span class="s2">&quot;unknown&quot;</span><span class="p">:</span> <span class="n">UnknownConverter</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>テスト<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>本ツールのテストは、 <code class="docutils literal notranslate"><span class="pre">pytest</span></code> で実行できます。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pytest<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>型チェックの実行<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<p>mypyによる型チェックを実行できます。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mypy<span class="w"> </span>.
+</pre></div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="converters/write_to_hyper.html"
+       title="前の章へ">← WriteToHyper（出力）</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, tomomi.kodama.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>

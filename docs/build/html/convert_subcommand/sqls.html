@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html  lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>SQLの生成</title>
+    
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="../_static/documentation_options.js?v=565b5f0b"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="検索" href="../search.html" />
+  <link rel="next" title="対応バージョン" href="implemented_features.html" />
+  <link rel="prev" title="カラム定義の計算" href="columns.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">prep2dbt</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">クイック検索</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="検索" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#welcome-to-prep2dbt-s-documentation">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../overviews.html" class="reference internal ">概要</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../quickstart.html" class="reference internal ">クイックスタート</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../requirements_and_install.html" class="reference internal ">前提条件とインストール方法</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../command_usage.html" class="reference internal ">コマンドの使い方</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="convert_index.html" class="reference internal ">dbtモデル変換</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../describe_subcommand.html" class="reference internal ">統計情報の出力</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../converters/converters_index.html" class="reference internal ">コンバーター</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../develop_guide.html" class="reference internal ">開発者ガイド</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="convert_index.html">dbtモデル変換</a> &raquo;</li>
+    
+    <li>SQLの生成</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="columns.html"
+       title="前の章へ">← カラム定義の計算</a>
+  </li>
+  <li class="next">
+    <a href="implemented_features.html"
+       title="次の章へ">対応バージョン →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="sql">
+<h1>SQLの生成<a class="headerlink" href="#sql" title="Link to this heading">¶</a></h1>
+<p>各ステップは、それぞれのロジックに合わせたSQL文へと変換されます。ステップの種類ごとの変換仕様は、 <a class="reference internal" href="../converters/converters_index.html"><span class="doc">コンバーター</span></a> を参照してください。</p>
+<section id="common-convert">
+<span id="id1"></span><h2>共通の変換<a class="headerlink" href="#common-convert" title="Link to this heading">¶</a></h2>
+<p>Tableau Prepでは、どのステップでも利用できる共通的な処理がいくつか存在します。</p>
+<a class="reference internal image-reference" href="../_images/annotations.png"><img alt="../_images/annotations.png" class="align-center" src="../_images/annotations.png" style="width: 600px;" /></a>
+<ul class="simple">
+<li><p>値のフィルター</p></li>
+<li><p>フィールド名の変更</p></li>
+<li><p>計算フィールドの追加</p></li>
+<li><p>フィールドの削除</p></li>
+<li><p>フィールドの型を変更</p></li>
+<li><p>フィールドの複製</p></li>
+<li><p>値のグループ化</p></li>
+</ul>
+<p>フロー定義では、 <code class="docutils literal notranslate"><span class="pre">beforeActionAnnotations</span></code> 、 <code class="docutils literal notranslate"><span class="pre">afterActionAnnotations</span></code> 属性に記録されています。</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">annotationsの例</span><a class="headerlink" href="#id6" title="Link to this code">¶</a></div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;nodeType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v2018_2_3.SuperTransform&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;stg_customer&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;906b692f-8aba-4592-b073-a91832e452e3&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;baseType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;superNode&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nextNodes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;namespace&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNodeId&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;e7eb3a16-c537-405b-bc55-06be5246f6e0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNamespace&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Right&quot;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;serialize&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;beforeActionAnnotations&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;namespace&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;annotationNode&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;nodeType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v1.RenameColumn&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;columnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ID&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;rename&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CUSTOMER_ID&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ID の名前を CUSTOMER_ID に変更しました 1&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;addd6033-3356-4812-9d58-a69336f1ff54&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;baseType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;transform&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;nextNodes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;serialize&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;namespace&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;annotationNode&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;nodeType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v1.AddColumn&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;columnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;full_name&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;expressions&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[first_name]+[last_name]&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Add full_name&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7bb30a7d-d90b-4ba8-bbd0-d6b7bb8271ba&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;baseType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;transform&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;nextNodes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;serialize&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;afterActionAnnotations&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;actionNode&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>これらの作用は、SQL上ではCTEとして表現されます。</p>
+<a class="reference internal image-reference" href="../_images/annotation_to_cte.drawio.png"><img alt="../_images/annotation_to_cte.drawio.png" class="align-center" src="../_images/annotation_to_cte.drawio.png" style="width: 600px;" /></a>
+</section>
+<section id="id2">
+<h2>未知のステップ<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>変換仕様が見つからなかった場合、そのステップは未知のステップとして扱います。</p>
+<p>未知のステップでは、dbtのコンパイルができる最低限の状態のSQLを生成します。</p>
+<section id="id3">
+<h3>親が存在しない未知のステップ<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p>親がない未知のステップは、 <a class="reference external" href="https://docs.getdbt.com/docs/build/sources">dbt source</a>  と、それを参照するモデルを作成します。
+未知なステップなので、カラム定義は不明（ <code class="docutils literal notranslate"><span class="pre">&quot;*&quot;</span></code> ）として扱われます。</p>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+
+<span class="nt">sources</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SOURCE</span>
+<span class="w">  </span><span class="nt">tables</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;未知のステップ名&gt;</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
+<span class="w">      </span><span class="no">{ ... }</span>
+</pre></div>
+</div>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="k">source</span><span class="w"> </span><span class="k">AS</span>
+<span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">source</span><span class="o">(</span><span class="s1">&#39;source&#39;</span><span class="o">,</span> <span class="s1">&#39;&lt;未知のステップ名&gt;&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="p">)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="k">source</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>親がひとつだけの未知のステップ<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<p>親が一つだけの未知のステップでは、カラム定義が不明のため、 <code class="docutils literal notranslate"><span class="pre">&quot;*&quot;</span></code> で親をSELECTするだけのSQLを生成する。</p>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="k">source</span><span class="w"> </span><span class="k">AS</span>
+<span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">ref</span><span class="o">(</span><span class="s1">&#39;親モデル名&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="p">)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="k">source</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>親が複数ある未知のステップ<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<p>親が複数ある未知のステップでは、カラムが特定できないため、すべての親テーブルをユニオンするだけのSQLを生成します。</p>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="n">union_tables</span><span class="w"> </span><span class="k">AS</span>
+<span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">ref</span><span class="o">(</span><span class="s1">&#39;親モデル名_1&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="w">    </span><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">ref</span><span class="o">(</span><span class="s1">&#39;親モデル名_2&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="w">    </span><span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">ref</span><span class="o">(</span><span class="s1">&#39;親モデル名_3&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+
+<span class="p">)</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">union_tables</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="columns.html"
+       title="前の章へ">← カラム定義の計算</a>
+  </li>
+  <li class="next">
+    <a href="implemented_features.html"
+       title="次の章へ">対応バージョン →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, tomomi.kodama.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>

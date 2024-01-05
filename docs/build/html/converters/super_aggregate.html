@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html  lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>SuperAggregate（集計）</title>
+    
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="../_static/documentation_options.js?v=565b5f0b"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="検索" href="../search.html" />
+  <link rel="next" title="SuperJoin（結合）" href="super_join.html" />
+  <link rel="prev" title="LoadExcel（接続 - Excelファイル）" href="load_excel.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">prep2dbt</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">クイック検索</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="検索" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#welcome-to-prep2dbt-s-documentation">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../overviews.html" class="reference internal ">概要</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../quickstart.html" class="reference internal ">クイックスタート</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../requirements_and_install.html" class="reference internal ">前提条件とインストール方法</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../command_usage.html" class="reference internal ">コマンドの使い方</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../convert_subcommand/convert_index.html" class="reference internal ">dbtモデル変換</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../describe_subcommand.html" class="reference internal ">統計情報の出力</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="converters_index.html" class="reference internal ">コンバーター</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../develop_guide.html" class="reference internal ">開発者ガイド</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="converters_index.html">コンバーター</a> &raquo;</li>
+    
+    <li>SuperAggregate（集計）</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="load_excel.html"
+       title="前の章へ">← LoadExcel（接続 - Excelファイル）</a>
+  </li>
+  <li class="next">
+    <a href="super_join.html"
+       title="次の章へ">SuperJoin（結合） →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="superaggregate">
+<h1>SuperAggregate（集計）<a class="headerlink" href="#superaggregate" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://help.tableau.com/current/prep/ja-jp/prep_combine.htm">集計ステップ</a>
+の変換仕様です。</p>
+<section id="id2">
+<h2>フロー定義フォーマット<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;nodeType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v2018_2_3.SuperAggregate&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;集計&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;516280ac-6481-4f47-81be-5734e6b7977e&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;baseType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;superNode&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nextNodes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;namespace&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNodeId&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;46899811-b91a-4959-ad7f-fccb102760f1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNamespace&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;serialize&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;beforeActionAnnotations&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;afterActionAnnotations&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;actionNode&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;nodeType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v1.Aggregate&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;集計&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;82d6d1f2-45ad-4408-977f-002a8f6776a5&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;baseType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;transform&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNodes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;serialize&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;groupByFields&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;columnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ID&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;function&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GroupBy&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;newColumnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;specialFieldType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;aggregateFields&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;columnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ORDERS&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;function&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MAX&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;newColumnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;specialFieldType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>グラフへの変換<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nextNodes</span></code> 属性から、次のステップへの参照を取得し、エッジを構築します。</p>
+</section>
+<section id="id4">
+<h2>カラム定義の計算<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">actionNode</span></code> 属性配下の、 <code class="docutils literal notranslate"><span class="pre">groupByFields</span></code> 属性と <code class="docutils literal notranslate"><span class="pre">aggregateFields</span></code> で利用されているカラム名を収集し、定義を構築します。</p>
+</section>
+<section id="sql">
+<h2>SQLへの変換<a class="headerlink" href="#sql" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="../convert_subcommand/sqls.html"><span class="doc">SQLの生成</span></a> の通り、共通のCTE文作成が行われます。前処理と後処理の間に、
+以下の通り集計用のCTE文が作成されます。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;groupByFields&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;columnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ID&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;function&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GroupBy&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;newColumnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;specialFieldType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;aggregateFields&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;columnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ORDERS&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;function&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MAX&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;newColumnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;specialFieldType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="ss">&quot;xxx&quot;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="c1">-- beforeActionAnnotationsの処理</span>
+<span class="p">),</span>
+<span class="ss">&quot;&lt;ノードID&gt;&quot;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="ss">&quot;ID&quot;</span>
+<span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="ss">&quot;ORDERS&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="ss">&quot;ORDERS&quot;</span>
+<span class="w">    </span><span class="k">FROM</span>
+<span class="w">        </span><span class="ss">&quot;&lt;前処理のCTE&gt;&quot;</span>
+<span class="w">    </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span>
+<span class="w">        </span><span class="ss">&quot;ID&quot;</span>
+<span class="p">),</span>
+<span class="ss">&quot;xxx&quot;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="c1">-- afterActionAnnotationsの処理</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>変換される関数の対応は以下の通りです。</p>
+<table class="docutils align-left">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tableau上の関数</p></th>
+<th class="head"><p>変換後のSQL</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>SUM（合計）</p></td>
+<td><p>SUM</p></td>
+</tr>
+<tr class="row-odd"><td><p>AVG（平均）</p></td>
+<td><p>AVG</p></td>
+</tr>
+<tr class="row-even"><td><p>MEDIAN（中央値）</p></td>
+<td><p>MEDIAN</p></td>
+</tr>
+<tr class="row-odd"><td><p>COUNT（カウント）</p></td>
+<td><p>COUNT</p></td>
+</tr>
+<tr class="row-even"><td><p>COUNTD（個別カウント）</p></td>
+<td><p>COUNT DISTINCT</p></td>
+</tr>
+<tr class="row-odd"><td><p>MIN（最小値）</p></td>
+<td><p>MIN</p></td>
+</tr>
+<tr class="row-even"><td><p>MAX（最大値）</p></td>
+<td><p>MAX</p></td>
+</tr>
+<tr class="row-odd"><td><p>STDEV（標準偏差）</p></td>
+<td><p>STDDEV</p></td>
+</tr>
+<tr class="row-even"><td><p>STDEVP（母標準偏差）</p></td>
+<td><p>STDDEV_POP</p></td>
+</tr>
+<tr class="row-odd"><td><p>VAR（分散）</p></td>
+<td><p>VARIANCE</p></td>
+</tr>
+<tr class="row-even"><td><p>VARP（母分散）</p></td>
+<td><p>VARIANCE_POP</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition caution">
+<p class="admonition-title">注意</p>
+<p>上記の通り、変換される関数はdialect指定されたDBに合わせた形にはなりません。
+使用するDBの関数に合わせて適宜修正してください。</p>
+</div>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="load_excel.html"
+       title="前の章へ">← LoadExcel（接続 - Excelファイル）</a>
+  </li>
+  <li class="next">
+    <a href="super_join.html"
+       title="次の章へ">SuperJoin（結合） →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, tomomi.kodama.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>

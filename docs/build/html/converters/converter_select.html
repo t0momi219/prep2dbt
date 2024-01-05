@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html  lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>コンバーターの選出ロジック</title>
+    
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="../_static/documentation_options.js?v=565b5f0b"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="検索" href="../search.html" />
+  <link rel="next" title="LoadSQL（接続 - サーバー）" href="load_sql.html" />
+  <link rel="prev" title="導入" href="introduction.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">prep2dbt</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">クイック検索</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="検索" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#welcome-to-prep2dbt-s-documentation">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../overviews.html" class="reference internal ">概要</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../quickstart.html" class="reference internal ">クイックスタート</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../requirements_and_install.html" class="reference internal ">前提条件とインストール方法</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../command_usage.html" class="reference internal ">コマンドの使い方</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../convert_subcommand/convert_index.html" class="reference internal ">dbtモデル変換</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../describe_subcommand.html" class="reference internal ">統計情報の出力</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="converters_index.html" class="reference internal ">コンバーター</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../develop_guide.html" class="reference internal ">開発者ガイド</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="converters_index.html">コンバーター</a> &raquo;</li>
+    
+    <li>コンバーターの選出ロジック</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="introduction.html"
+       title="前の章へ">← 導入</a>
+  </li>
+  <li class="next">
+    <a href="load_sql.html"
+       title="次の章へ">LoadSQL（接続 - サーバー） →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="id1">
+<h1>コンバーターの選出ロジック<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>フロー定義が読み込まれたのち、各ステップの内容に応じて、適切なコンバーターが選択されます。
+選択ロジックは以下の通りです。</p>
+<section id="nodetype">
+<h2>1. ステップの <code class="docutils literal notranslate"><span class="pre">nodeType</span></code> 属性と一致するコンバーターを検索する<a class="headerlink" href="#nodetype" title="Link to this heading">¶</a></h2>
+<p>ステップには、 <code class="docutils literal notranslate"><span class="pre">nodeType</span></code> 属性が必ず含まれます。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;nodeType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v2018_2_3.SuperTransform&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;stg_customer&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;906b692f-8aba-4592-b073-a91832e452e3&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;baseType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;superNode&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nextNodes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;namespace&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNodeId&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;e7eb3a16-c537-405b-bc55-06be5246f6e0&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNamespace&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Right&quot;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>この <code class="docutils literal notranslate"><span class="pre">nodeType</span></code> に一致する名称のコンバータークラスを検索し、もし一致するものがあれば、それを採用します。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">VersionMappingRegistory</span><span class="p">:</span>
+    <span class="n">version_converters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">[</span><span class="n">Converter</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;.v1.LoadSql&quot;</span><span class="p">:</span> <span class="n">LoadSqlConverter</span><span class="p">,</span>
+        <span class="s2">&quot;.v2018_2_3.SuperAggregate&quot;</span><span class="p">:</span> <span class="n">SuperAggregateConverter</span><span class="p">,</span>
+        <span class="s2">&quot;.v2018_2_3.SuperJoin&quot;</span><span class="p">:</span> <span class="n">SuperJoinConverter</span><span class="p">,</span>
+        <span class="s2">&quot;.v2018_2_3.SuperTransform&quot;</span><span class="p">:</span> <span class="n">SuperTransformConverter</span><span class="p">,</span>
+        <span class="s2">&quot;unknown&quot;</span><span class="p">:</span> <span class="n">UnknownConverter</span><span class="p">,</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>2. 別バージョンのコンバーターを検索する<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>もし、 <code class="docutils literal notranslate"><span class="pre">nodeType</span></code> が完全一致するコンバーターが見つからない場合には、別バージョンのコンバーターを検索します。</p>
+<p><code class="docutils literal notranslate"><span class="pre">nodeType</span></code> の後半が一致するコンバーターがあれば、それを採用します。（ <code class="docutils literal notranslate"><span class="pre">.other_version.SuperTransform</span></code>
+なら、 <code class="docutils literal notranslate"><span class="pre">.v2018_2_3.SuperTransform</span></code> 向けのコンバーターが選ばれます。）</p>
+</section>
+<section id="id3">
+<h2>3. 見つからなかった場合は未知のステップとして扱う<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>別バージョンのコンバーターも見つからなかった場合には、未知のステップとして変換を試みます。</p>
+<p>内部では、未知のステップの変換用の <code class="docutils literal notranslate"><span class="pre">UnknownConverter</span></code> が使用されます。</p>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="introduction.html"
+       title="前の章へ">← 導入</a>
+  </li>
+  <li class="next">
+    <a href="load_sql.html"
+       title="次の章へ">LoadSQL（接続 - サーバー） →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, tomomi.kodama.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>

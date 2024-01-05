@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html  lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>クイックスタート</title>
+    
+          <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="_static/documentation_options.js?v=565b5f0b"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/translations.js?v=4dbe4bdc"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="_static/theme-vendors.js"></script> -->
+      <script src="_static/theme.js" defer></script>
+    
+  <link rel="index" title="索引" href="genindex.html" />
+  <link rel="search" title="検索" href="search.html" />
+  <link rel="next" title="前提条件とインストール方法" href="requirements_and_install.html" />
+  <link rel="prev" title="概要" href="overviews.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="index.html" class="home-link">
+    
+      <span class="site-name">prep2dbt</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">クイック検索</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="検索" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="index.html#welcome-to-prep2dbt-s-documentation">Contents:</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="overviews.html" class="reference internal ">概要</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current">
+            
+              <a href="#" class="reference internal current">クイックスタート</a>
+            
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#python" class="reference internal">Pythonのインストール</a></li>
+                
+                  <li class="toctree-l2"><a href="#prep2dbt" class="reference internal">prep2dbtのインストール</a></li>
+                
+                  <li class="toctree-l2"><a href="#id2" class="reference internal">フローファイルのエクスポート</a></li>
+                
+                  <li class="toctree-l2"><a href="#id3" class="reference internal">変換の実行</a></li>
+                
+                  <li class="toctree-l2"><a href="#dbt" class="reference internal">dbtプロジェクトの作成</a></li>
+                
+                  <li class="toctree-l2"><a href="#id10" class="reference internal">変換されたフローをdbtプロジェクトへ取り込む</a></li>
+                
+                  <li class="toctree-l2"><a href="#dbt-docs" class="reference internal">dbt docsの生成と公開</a></li>
+                
+                  <li class="toctree-l2"><a href="#id11" class="reference internal">次のステップへ</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="requirements_and_install.html" class="reference internal ">前提条件とインストール方法</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="command_usage.html" class="reference internal ">コマンドの使い方</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="convert_subcommand/convert_index.html" class="reference internal ">dbtモデル変換</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="describe_subcommand.html" class="reference internal ">統計情報の出力</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="converters/converters_index.html" class="reference internal ">コンバーター</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="develop_guide.html" class="reference internal ">開発者ガイド</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+    
+    <li>クイックスタート</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="overviews.html"
+       title="前の章へ">← 概要</a>
+  </li>
+  <li class="next">
+    <a href="requirements_and_install.html"
+       title="次の章へ">前提条件とインストール方法 →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="id1">
+<h1>クイックスタート<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>prep2dbtを使い始めるには、Pythonとpipが必要です。
+すでにセットアップされている場合は、 <a class="reference internal" href="#prep2dbtinstall"><span class="std std-ref">prep2dbtのインストール</span></a> までスキップしてください。</p>
+<section id="python">
+<h2>Pythonのインストール<a class="headerlink" href="#python" title="Link to this heading">¶</a></h2>
+<p>OSに合わせて、Pythonをインストールします。ツールが対応しているpythonバージョンは、<a class="reference internal" href="requirements_and_install.html"><span class="doc">前提条件とインストール方法</span></a> を確認してください。</p>
+<p>多くの場合、Pythonのインストールによってpipも一緒にインストールされますが、もし導入されていない場合は合わせてインストールしてください。</p>
+</section>
+<section id="prep2dbt">
+<span id="prep2dbtinstall"></span><h2>prep2dbtのインストール<a class="headerlink" href="#prep2dbt" title="Link to this heading">¶</a></h2>
+<p>ツールはpipを使ってインストールできますが、仮想環境を利用することを推奨します。ここでは <code class="docutils literal notranslate"><span class="pre">pipenv</span></code> を用います。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>pipenv
+$<span class="w"> </span>pipenv<span class="w"> </span>install<span class="w"> </span>prep2dbt
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>フローファイルのエクスポート<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>変換したいTableau Prepフローを、ファイルとしてエクスポートします。
+ファイルの詳細および最新の情報については <a class="reference external" href="https://help.tableau.com/current/prep/ja-jp/prep_save_share.htm">Tableau公式ドキュメント</a> を確認してください。</p>
+<ol class="arabic">
+<li><p>変換したいフローをTableau Prep上で開きます。</p></li>
+<li><p>「ファイル」 → 「ダウンロード」を選択し、フローをファイルとして保存します。</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="_images/export_flow_file_from_prep.png"><img alt="_images/export_flow_file_from_prep.png" class="align-center" src="_images/export_flow_file_from_prep.png" style="width: 239.0px; height: 313.0px;" /></a>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="id3">
+<h2>変換の実行<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>コマンドラインから、変換後のファイルを置きたいディレクトリへ移動して、ツールを実行します。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>prep2dbt<span class="w"> </span>convert<span class="w"> </span>-f<span class="w"> </span>/path/to/flow_file.tfl
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>変換後のファイルをおくディレクトリは、ワークディレクトリ以外にも指定が可能です。</p>
+<p>指定できるオプションは、 <a class="reference internal" href="command_usage.html"><span class="doc">コマンドの使い方</span></a> を参照してください。</p>
+</div>
+<p>実行されると、以下のような出力とともに、<code class="docutils literal notranslate"><span class="pre">outputs</span></code> フォルダへSQLとYMLファイルが作成されているはずです。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">==================================</span><span class="w"> </span><span class="nv">処理したステップ</span><span class="w"> </span><span class="o">==================================</span>
+RAW_PAYMENTS<span class="w"> </span><span class="o">(</span>RAW_PAYMENTS<span class="o">)</span><span class="w">                                                 </span><span class="o">[</span>正常終了<span class="o">]</span>
+stg_payment<span class="w">                                                                 </span><span class="o">[</span>正常終了<span class="o">]</span>
+stg_customer<span class="w">                                                                </span><span class="o">[</span>正常終了<span class="o">]</span>
+final_join_1<span class="w">                                                                </span><span class="o">[</span>正常終了<span class="o">]</span>
+orders<span class="w">                                                                      </span><span class="o">[</span>正常終了<span class="o">]</span>
+orders_rename_cols<span class="w">                                                          </span><span class="o">[</span>正常終了<span class="o">]</span>
+customer_orders_most_recent_order<span class="w">                                           </span><span class="o">[</span>正常終了<span class="o">]</span>
+customer_orders<span class="w">                                                             </span><span class="o">[</span>正常終了<span class="o">]</span>
+customer_payments_join<span class="w">                                                      </span><span class="o">[</span>正常終了<span class="o">]</span>
+customer_payments_aggregate<span class="w">                                                 </span><span class="o">[</span>正常終了<span class="o">]</span>
+customers<span class="w">                                                                   </span><span class="o">[</span>正常終了<span class="o">]</span>
+write<span class="w"> </span>customers<span class="w">                                                        </span><span class="o">[</span>不明なステップ<span class="o">]</span>
+unstack<span class="w"> </span>payment<span class="w"> </span>methods<span class="w">                                         </span><span class="o">[</span>カラムが特定できません<span class="o">]</span>
+order_payments<span class="w">                                                              </span><span class="o">[</span>正常終了<span class="o">]</span>
+order_payment_cleansed<span class="w">                                                      </span><span class="o">[</span>正常終了<span class="o">]</span>
+customer_payments<span class="w">                                                           </span><span class="o">[</span>正常終了<span class="o">]</span>
+final_join_2<span class="w">                                                                </span><span class="o">[</span>正常終了<span class="o">]</span>
+write<span class="w"> </span>orders<span class="w">                                                           </span><span class="o">[</span>不明なステップ<span class="o">]</span>
+RAW_CUSTOMERS<span class="w"> </span><span class="o">(</span>RAW_CUSTOMERS<span class="o">)</span><span class="w"> </span><span class="m">2</span><span class="w">                                             </span><span class="o">[</span>正常終了<span class="o">]</span>
+RAW_ORDERS<span class="w"> </span><span class="o">(</span>RAW_ORDERS<span class="o">)</span><span class="w"> </span><span class="m">2</span><span class="w">                                                   </span><span class="o">[</span>正常終了<span class="o">]</span>
+stg_order<span class="w">                                                                   </span><span class="o">[</span>正常終了<span class="o">]</span>
+customer_orders_first_order_and_number_of_orders<span class="w">                            </span><span class="o">[</span>正常終了<span class="o">]</span>
+<span class="o">==============================</span><span class="w"> </span><span class="m">19</span><span class="w"> </span>成功,<span class="w"> </span><span class="m">1</span><span class="w"> </span>警告,<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="nv">失敗</span><span class="w"> </span><span class="o">===============================</span>
+🎉dbtモデルへの変換が完了しました。
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/execution_result.png"><img alt="_images/execution_result.png" class="align-center" src="_images/execution_result.png" style="width: 600px;" /></a>
+<p>変換が完了したことがわかります。
+表示されている各行は、Prepに含まれるそれぞれのステップに対して、
+どういった変換が行われたかを示しています。</p>
+<section id="id4">
+<h3>不明なステップ<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<p>赤文字で表示される「不明なステップ」ステータスは、該当ステップの種類の変換仕様が本ツールでサポートされていなかったことを示します。</p>
+<p>変換仕様が特定できなかったステップは、最低限のSQLを生成するように処理をフォールバックします。（以下のサンプルのように、参照元テーブルのすべての列を取得するだけのSQLが作成されます。）</p>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="k">final</span><span class="w"> </span><span class="k">AS</span>
+<span class="p">(</span>
+<span class="c1">-- このステップは変換仕様が未実装です。 write customers</span>
+<span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="w">  </span><span class="k">FROM</span><span class="w"> </span><span class="cp">{{</span> <span class="nv">ref</span><span class="o">(</span><span class="s1">&#39;customers_1&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">source</span>
+<span class="p">)</span>
+
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="k">final</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>カラムが特定できません<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<p>黄色文字で表示される「カラムが特定できません」ステータスは、変換仕様は特定できたものの、
+参照元のステップが「不明なステップ」になっているなどの理由で、どのようなカラムが入力されるのか特定できなかったことを示します。</p>
+<p>このステータスのステップでは、できる限りカラム定義を推測して変換を行いますが、不明な場合は <code class="docutils literal notranslate"><span class="pre">&quot;*&quot;</span></code> でクエリするようなSELECT文を作成します。</p>
+</section>
+<section id="id6">
+<h3>正常終了<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<p>緑文字で表示される「正常終了」ステータスは、変換仕様が見つかり、カラム定義も特定できたことを示します。</p>
+</section>
+</section>
+<section id="dbt">
+<h2>dbtプロジェクトの作成<a class="headerlink" href="#dbt" title="Link to this heading">¶</a></h2>
+<p>変換したモデルをdbtプロジェクトへ取り込みます。既存のdbtプロジェクトへモデルを取り込む場合は、までスキップしてください。</p>
+<section id="id7">
+<h3>dbtのインストール<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<p>まずはローカルで、とりあえずdbtに取り込んでドキュメント化機能などを確認したいだけなら、 <code class="docutils literal notranslate"><span class="pre">duckDB</span></code> 向けにプロジェクトを作れれば十分です。</p>
+<p><code class="docutils literal notranslate"><span class="pre">dbt-duckdb</span></code> をインストールします。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pipenv<span class="w"> </span>install<span class="w"> </span>dbt-duckdb
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>プロジェクトの構築<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">dbt</span> <span class="pre">init</span></code> コマンドで、プロジェクトを作成します。プロジェクト名は、 <code class="docutils literal notranslate"><span class="pre">prep_to_dbt</span></code> とします。</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ pipenv run dbt init -s
+
+08:54:16  Running with dbt=1.7.4
+Enter a name for your project (letters, digits, underscore): prep_to_dbt
+08:54:21
+Your new dbt project &quot;prep_to_dbt&quot; was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don&#39;t hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+</pre></div>
+</div>
+<p>ワークディレクトリ配下に、以下の構造が作られたことを確認してください。
+<code class="docutils literal notranslate"><span class="pre">models/example</span></code> フォルダは、削除しても構いません。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>prep_to_dbt
+├── README.md
+├── analyses
+├── dbt_project.yml
+├── macros
+├── models
+│   └── example
+│       ├── my_first_dbt_model.sql
+│       ├── my_second_dbt_model.sql
+│       └── schema.yml
+├── seeds
+├── snapshots
+└── tests
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>プロファイルの追加<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<p>プロファイルは、dbtがデータベースへ接続するために使用する資格情報などを定義したものです。
+<code class="docutils literal notranslate"><span class="pre">profiles.yml</span></code> を、 <code class="docutils literal notranslate"><span class="pre">dbt_project.yml</span></code> と同じディレクトに作成し、以下の内容で保存します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>prep_to_dbt
+├── README.md
+├── analyses
+├── dbt_project.yml
+├── macros
+├── models
+├── profiles.yml  &lt;-- 追加
+├── seeds
+├── snapshots
+└── tests
+</pre></div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text">profiles.yml</span><a class="headerlink" href="#id13" title="Link to this code">¶</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">prep_to_dbt</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">outputs</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dev</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">duckdb</span>
+<span class="w">  </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dev</span>
+</pre></div>
+</div>
+</div>
+<p>これでプロジェクトの構築は完了です。</p>
+</section>
+</section>
+<section id="id10">
+<h2>変換されたフローをdbtプロジェクトへ取り込む<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h2>
+<p>ワークディレクトリ配下に作られた <code class="docutils literal notranslate"><span class="pre">outputs</span></code> ディレクトリを、dbtプロジェクトの <code class="docutils literal notranslate"><span class="pre">models</span></code> へ追加します。それだけです。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>prep_to_dbt
+├── README.md
+├── analyses
+├── dbt_project.yml
+├── macros
+├── models
+│   └── outputs   &lt;-- 追加
+├── profiles.yml
+├── seeds
+├── snapshots
+└── tests
+</pre></div>
+</div>
+</section>
+<section id="dbt-docs">
+<h2>dbt docsの生成と公開<a class="headerlink" href="#dbt-docs" title="Link to this heading">¶</a></h2>
+<p>dbtは、ymlに記述された情報とSQLの依存関係から、データパイプラインのドキュメントを自動作成します。</p>
+<p>プロジェクトのルートディレクトリで、以下のコマンドを実行して生成できます。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dbt<span class="w"> </span>docs<span class="w"> </span>generate
+</pre></div>
+</div>
+<p>生成されたドキュメントを確認するには、以下のコマンドです。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dbt<span class="w"> </span>docs<span class="w"> </span>serve
+</pre></div>
+</div>
+<p>ローカルで、ドキュメントを公開する軽量なWebサーバが立ち上がり、ブラウザでdbt docsの画面が開いたはずです。</p>
+<a class="reference internal image-reference" href="_images/dbt_docs_top.png"><img alt="_images/dbt_docs_top.png" class="align-center" src="_images/dbt_docs_top.png" style="width: 600px;" /></a>
+<p>右下の青緑のフローティングアイコンを押すと、変換されたモデルのリネージグラフが表示されます。</p>
+<a class="reference internal image-reference" href="_images/dbt_docs_graph.png"><img alt="_images/dbt_docs_graph.png" class="align-center" src="_images/dbt_docs_graph.png" style="width: 600px;" /></a>
+<dl>
+<dt>モデルの色の意味は以下の通りです。</dt><dd><ul>
+<li><p>緑のモデル</p>
+<p>データの源泉となっているsourceです。</p>
+</li>
+<li><p>赤のモデル</p>
+<p>変換時、「不明なステップ」として処理されたモデルです。</p>
+</li>
+<li><p>青のモデル</p>
+<p>「正常終了」または「カラムが特定できません」として処理されたモデルです。</p>
+</li>
+</ul>
+</dd>
+</dl>
+<p>モデルを選ぶと、そのモデルが依存している上流モデルと、参照されている下流モデルまでが色付けされ、Prepよりも素早く依存を辿ることができます。</p>
+<a class="reference internal image-reference" href="_images/dbt_docs_focus_node.png"><img alt="_images/dbt_docs_focus_node.png" class="align-center" src="_images/dbt_docs_focus_node.png" style="width: 600px;" /></a>
+<p>次に、それぞれのモデルの詳細ページを開いてみます。</p>
+<a class="reference internal image-reference" href="_images/dbt_docs_model_description_1.png"><img alt="_images/dbt_docs_model_description_1.png" class="align-center" src="_images/dbt_docs_model_description_1.png" style="width: 600px;" /></a>
+<p>descriptionでは、フローファイルから抽出した、ステップの定義情報が記述されます。</p>
+<a class="reference internal image-reference" href="_images/dbt_docs_model_description_2.png"><img alt="_images/dbt_docs_model_description_2.png" class="align-center" src="_images/dbt_docs_model_description_2.png" style="width: 600px;" /></a>
+<p>columnsには、カラム定義の計算ができた場合は、その情報が記述されます。</p>
+<a class="reference internal image-reference" href="_images/dbt_docs_model_description_3.png"><img alt="_images/dbt_docs_model_description_3.png" class="align-center" src="_images/dbt_docs_model_description_3.png" style="width: 600px;" /></a>
+<p>また、変換済みSQLも参照ができます。</p>
+<p>これらの説明は、ymlファイルを更新することで自由に変更が可能です。</p>
+</section>
+<section id="id11">
+<h2>次のステップへ<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h2>
+<p>より高度なdbtの利用方法は、<a class="reference external" href="https://docs.getdbt.com/">dbt公式のガイド</a> から入手できます。</p>
+<p>もし手元のフローで使っているステップが本ツールの変換仕様で未対応でしたら、<a class="reference internal" href="develop_guide.html"><span class="doc">開発者ガイド</span></a> より、カスタム定義を追加する方法を確認してみてください。</p>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="overviews.html"
+       title="前の章へ">← 概要</a>
+  </li>
+  <li class="next">
+    <a href="requirements_and_install.html"
+       title="次の章へ">前提条件とインストール方法 →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, tomomi.kodama.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>

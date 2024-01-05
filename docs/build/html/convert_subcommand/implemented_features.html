@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html  lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>対応バージョン</title>
+    
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="../_static/documentation_options.js?v=565b5f0b"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="検索" href="../search.html" />
+  <link rel="next" title="統計情報の出力" href="../describe_subcommand.html" />
+  <link rel="prev" title="SQLの生成" href="sqls.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">prep2dbt</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">クイック検索</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="検索" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#welcome-to-prep2dbt-s-documentation">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../overviews.html" class="reference internal ">概要</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../quickstart.html" class="reference internal ">クイックスタート</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../requirements_and_install.html" class="reference internal ">前提条件とインストール方法</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../command_usage.html" class="reference internal ">コマンドの使い方</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="convert_index.html" class="reference internal ">dbtモデル変換</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../describe_subcommand.html" class="reference internal ">統計情報の出力</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../converters/converters_index.html" class="reference internal ">コンバーター</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../develop_guide.html" class="reference internal ">開発者ガイド</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="convert_index.html">dbtモデル変換</a> &raquo;</li>
+    
+    <li>対応バージョン</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="sqls.html"
+       title="前の章へ">← SQLの生成</a>
+  </li>
+  <li class="next">
+    <a href="../describe_subcommand.html"
+       title="次の章へ">統計情報の出力 →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="id1">
+<h1>対応バージョン<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>Tableau Prepフロー機能のうち、以下機能は本ツールで変換仕様が定義済みです。</p>
+<p>もし以下にない機能を含む変換を自動で行いたい場合には、カスタムコンバーターを追加できます。
+詳細は <a class="reference internal" href="../develop_guide.html"><span class="doc">開発者ガイド</span></a> を参照してください。</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>ステータスはコンバーターのテストレベルを示します。</dt><dd><ul>
+<li><p>ベータ ： おそらく動作しますが、複数バージョンでフロー定義フォーマットを見比べることをしていないため、想定できていないフォーマットがまだあるかもしれません。</p></li>
+<li><p>安定版 ： 2つ以上のTableau Prepバージョンで作られたフロー定義に対してテストされています。</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>機能名</p></th>
+<th class="head"><p>対応済みバージョン</p></th>
+<th class="head"><p>変換定義のステータス</p></th>
+<th class="head"><p>メモ</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>接続 (サーバー)</p></td>
+<td><p>.v1.LoadSql</p></td>
+<td><p>ベータ</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>接続 (Tableau Server)</p></td>
+<td><p>.v2019_3_1.LoadSqlProxy</p></td>
+<td><p>ベータ</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>接続 (CSV)</p></td>
+<td><p>.v1.LoadCsv</p>
+<p>.v1.LoadCsvInputUnion</p>
+</td>
+<td><p>ベータ</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>接続 (Excel)</p></td>
+<td><p>.v1.LoadExcel</p></td>
+<td><p>ベータ</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>集計 (SuperAggregate)</p></td>
+<td><p>.v2018_2_3.SuperAggregate</p></td>
+<td><p>ベータ</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>結合 (SuperJoin)</p></td>
+<td><p>.v2018_2_3.SuperJoin</p></td>
+<td><p>ベータ</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>クリーニング (SuperTransform)</p></td>
+<td><p>.v2018_2_3.SuperTransform</p></td>
+<td><p>ベータ</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>クリーニング (Container)</p></td>
+<td><p>.v1.Container</p></td>
+<td><p>ベータ</p></td>
+<td><p>古いTableau Prepバージョンで定義されるクリーニングステップの仕様です。</p></td>
+</tr>
+<tr class="row-even"><td><p>出力 (WriteToHyper)</p></td>
+<td><p>.v1.WriteToHyper</p></td>
+<td><p>ベータ</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="sqls.html"
+       title="前の章へ">← SQLの生成</a>
+  </li>
+  <li class="next">
+    <a href="../describe_subcommand.html"
+       title="次の章へ">統計情報の出力 →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, tomomi.kodama.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>
