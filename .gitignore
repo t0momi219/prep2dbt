@@ -5,6 +5,8 @@ tmp
 tmp.zip
 dbt
 
+.DS_Store
+
 .python-version
 .vscode
 

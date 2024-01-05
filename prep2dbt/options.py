@@ -32,7 +32,7 @@ def validate_dialect(ctx, param, value: str) -> str:
 dialect = click.option(
     "--dialect",
     "-d",
-    help="SQLのダイアレクト。サポートしているDBはドキュメントを確認してください。",
+    help="SQLのダイアレクト。サポートしているDBは'snowflake', 'porstgre', 'duckdb'です。デフォルトではduckdbです。",
     default="duckdb",
     callback=validate_dialect,
 )

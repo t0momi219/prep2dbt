@@ -3,14 +3,14 @@
 Tableau Prepで作成されたフローをdbtモデルに変換するツールです。
 
 ドキュメント
-  https://hogehoge
+- https://hogehoge
 
 ソースコード
-  https://github.com/t0momi219/prep2dbt
+- https://github.com/t0momi219/prep2dbt
 
 サンプル（Superstoreを本ツールでdbtに変換）
-  https://t0momi219.github.io/prep2dbt-demo/#!/overview
-  
+- https://t0momi219.github.io/prep2dbt-demo/#!/overview
+
 ## モチベーション
 
 Tableau PrepはGUIで簡易なデータパイプラインを作成・操作することに焦点が当てられたツールです。フローが複雑化してきた場合や複数人でフローを利用する場合には、これを維持・管理するために大きな労力を支払わなければなりません。
@@ -46,7 +46,7 @@ Tableau PrepはGUIで簡易なデータパイプラインを作成・操作す�
 フローが利用している機能の一覧と、統計情報を出力します。これはフロー移行前に難易度や見積もりの測定を行ったり、リファクタリングのヒントとして活用するために利用できます。
 
 
-# インストール
+## インストール
 
 pipからインストールできます。
 

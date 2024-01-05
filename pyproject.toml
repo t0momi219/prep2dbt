@@ -1,3 +1,41 @@
 [build-system]
 requires = ["wheel", "setuptools"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "prep2dbt"
+dynamic = ["version"]
+authors = [
+    {name = "Tomomi Kodama", email = "t.kodama@datumstudio.jp"}
+]
+description = "Tools for converting Tableau Prep flows to dbt models"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["Tableau", "dbt"]
+classifiers =[
+    "Development Status :: 3 - Alpha"
+]
+dependencies = [
+    "click>=8.1.7",
+    "networkx>=3.2.1",
+    "pandas>=2.1.4",
+    "ruamel.yaml>=0.18.5",
+    "snowflake-sqlalchemy>=1.5.1",
+    "sqlalchemy[mypy]>=1.4.50",
+]
+requires-python = ">= 3.11"
+
+[project.urls]
+Documentation = "https://github.com/t0momi219/prep2dbt"
+Changelog = "https://github.com/t0momi219/prep2dbt"
+Repository = "https://github.com/t0momi219/prep2dbt"
+Issues = "https://github.com/t0momi219/prep2dbt"
+
+[project.scripts]
+prep2dbt = "prep2dbt.cli:cli"
+
+[tool.setuptools.dynamic]
+version = {attr = "prep2dbt.__version__.__version__"}
+
+[tool.setuptools]
+packages = ["prep2dbt"]
