@@ -4,7 +4,7 @@
 Tableau Prepで作成されたフローをdbtモデルに変換するツールです。
 
 ドキュメント
-  https://hogehoge
+  https://t0momi219.github.io/prep2dbt/index.html
 
 ソースコード
   https://github.com/t0momi219/prep2dbt
