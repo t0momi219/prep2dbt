@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html  lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>統計情報の出力</title>
+    
+          <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="_static/documentation_options.js?v=565b5f0b"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/translations.js?v=4dbe4bdc"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="_static/theme-vendors.js"></script> -->
+      <script src="_static/theme.js" defer></script>
+    
+  <link rel="index" title="索引" href="genindex.html" />
+  <link rel="search" title="検索" href="search.html" />
+  <link rel="next" title="コンバーター" href="converters/converters_index.html" />
+  <link rel="prev" title="対応バージョン" href="convert_subcommand/implemented_features.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="index.html" class="home-link">
+    
+      <span class="site-name">prep2dbt</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">クイック検索</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="検索" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="index.html#welcome-to-prep2dbt-s-documentation">Contents:</a></span>
+      </p>
+      <ul class="current">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="overviews.html" class="reference internal ">概要</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="quickstart.html" class="reference internal ">クイックスタート</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="requirements_and_install.html" class="reference internal ">前提条件とインストール方法</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="command_usage.html" class="reference internal ">コマンドの使い方</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="convert_subcommand/convert_index.html" class="reference internal ">dbtモデル変換</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 current">
+            
+              <a href="#" class="reference internal current">統計情報の出力</a>
+            
+
+            
+              <ul>
+                
+                  <li class="toctree-l2"><a href="#id2" class="reference internal">導入</a></li>
+                
+                  <li class="toctree-l2"><a href="#id3" class="reference internal">各メトリクスの意味</a></li>
+                
+              </ul>
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="converters/converters_index.html" class="reference internal ">コンバーター</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="develop_guide.html" class="reference internal ">開発者ガイド</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+    
+    <li>統計情報の出力</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="convert_subcommand/implemented_features.html"
+       title="前の章へ">← 対応バージョン</a>
+  </li>
+  <li class="next">
+    <a href="converters/converters_index.html"
+       title="次の章へ">コンバーター →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="id1">
+<h1>統計情報の出力<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<section id="id2">
+<h2>導入<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>Tableau Prepからdbtへ移行を行うにあたり、事前に移行の難易度測定や規模の見積もりを行いたくなることがあります。
+このツールは、フローが使用している機能や、規模、処理の複雑さを示すメトリクスを計算します。</p>
+</section>
+<section id="id3">
+<h2>各メトリクスの意味<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<section id="id4">
+<h3>ノード数<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<p>総ステップ数です。</p>
+<a class="reference internal image-reference" href="_images/graph_node_count.drawio.png"><img alt="_images/graph_node_count.drawio.png" class="align-center" src="_images/graph_node_count.drawio.png" style="width: 600px;" /></a>
+<p>例： ノード数 = 8</p>
+</section>
+<section id="id5">
+<h3>エッジ数<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<p>ステップ間の接続の本数です。</p>
+<a class="reference internal image-reference" href="_images/graph_edge_count.drawio.png"><img alt="_images/graph_edge_count.drawio.png" class="align-center" src="_images/graph_edge_count.drawio.png" style="width: 600px;" /></a>
+<p>例： エッジ数 = 9</p>
+</section>
+<section id="id6">
+<h3>入力ノード数<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<p>フローのうち、親を持たないノードの総数です。つまり、データソース接続の総数です。</p>
+<a class="reference internal image-reference" href="_images/graph_input_node_count.drawio.png"><img alt="_images/graph_input_node_count.drawio.png" class="align-center" src="_images/graph_input_node_count.drawio.png" style="width: 600px;" /></a>
+<p>例： 入力ノード数 = 2</p>
+</section>
+<section id="id7">
+<h3>出力ノード数<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<p>フローのうち、子を持たないノードの総数です。つまり、出力ステップの総数です。</p>
+<a class="reference internal image-reference" href="_images/graph_output_node_count.drawio.png"><img alt="_images/graph_output_node_count.drawio.png" class="align-center" src="_images/graph_output_node_count.drawio.png" style="width: 600px;" /></a>
+<p>例： 出力ノード数 = 1</p>
+</section>
+<section id="id8">
+<h3>深さ<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<p>入力から出力までの流れのうち、最も長いパスの距離です。つまり、ステップを実行順にならべたときの、レイヤーの数です。</p>
+<a class="reference internal image-reference" href="_images/graph_depth.drawio.png"><img alt="_images/graph_depth.drawio.png" class="align-center" src="_images/graph_depth.drawio.png" style="width: 600px;" /></a>
+<p>例： 深さ = 4</p>
+</section>
+<section id="id9">
+<h3>幅<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<p>ステップを実行順にならべたときの各レイヤーのうち、もっとも多くステップを含むレイヤーのステップ数です。</p>
+<a class="reference internal image-reference" href="_images/graph_width.drawio.png"><img alt="_images/graph_width.drawio.png" class="align-center" src="_images/graph_width.drawio.png" style="width: 600px;" /></a>
+<p>例： 幅 = 3</p>
+</section>
+<section id="id10">
+<h3>密度<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<p>各ステップからすべてのステップとの間にエッジを張った場合の本数に対する、実際にエッジが存在する割合です。</p>
+<a class="reference internal image-reference" href="_images/graph_density.drawio.png"><img alt="_images/graph_density.drawio.png" class="align-center" src="_images/graph_density.drawio.png" style="width: 600px;" /></a>
+<p>密度を計算すると、左は <code class="docutils literal notranslate"><span class="pre">0.1428</span></code> 、右は <code class="docutils literal notranslate"><span class="pre">0.3571</span></code> となります。密度の高いネットワークでは、
+密度の低いネットワークよりもデータの依存が拡散しているため、処理が複雑になっている可能性が高いです。</p>
+</section>
+<section id="id11">
+<h3>平均次数<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
+<p>ステップが他のステップと接続している本数の平均です。</p>
+<a class="reference internal image-reference" href="_images/graph_avg_degree.drawio.png"><img alt="_images/graph_avg_degree.drawio.png" class="align-center" src="_images/graph_avg_degree.drawio.png" style="width: 600px;" /></a>
+<p>平均次数が高いグラフはデータ同士の依存が多いため、処理が複雑になっている可能性が高いです。</p>
+</section>
+<section id="id12">
+<h3>エントロピー<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">注釈</p>
+<p>エントロピーから読み取れる情報が乏しそうなので、現在エントロピーの計算はコメントアウトしています。
+もし使いたい場合は、コメントインして利用ください。</p>
+</div>
+<p>グラフの次数の分布を用いて計算したシャノンエントロピーです。
+各ステップの次数の出現確率を情報量として計算し、その平均情報量を求めます。</p>
+<p>エントロピーが高いグラフでは、エントロピーが低いグラフに比べて、次数が偏っているといえます（よく利用されているステップと、利用されていないステップの差がある状態です）。</p>
+<p>たとえばこの図ようなグラフを考えます。</p>
+<a class="reference internal image-reference" href="_images/graph_entropy.drawio.png"><img alt="_images/graph_entropy.drawio.png" class="align-center" src="_images/graph_entropy.drawio.png" style="width: 600px;" /></a>
+<p>上下のグラフはノード数、エッジ数ともに同数です。</p>
+<p>ただ、上のグラフは次数2のノードと3のノードを同数持つ偏りがない状態である一方、
+下のグラフでは次数が2のノードがほとんどですが、ひとつだけ次数が7のノードがある偏った状態です。</p>
+<p>両者のエントロピーは、 <code class="docutils literal notranslate"><span class="pre">1.0</span></code> と <code class="docutils literal notranslate"><span class="pre">1.061</span></code> となり、偏りのある方が大きな数値になります。</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="convert_subcommand/implemented_features.html"
+       title="前の章へ">← 対応バージョン</a>
+  </li>
+  <li class="next">
+    <a href="converters/converters_index.html"
+       title="次の章へ">コンバーター →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, tomomi.kodama.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html  lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>Container（クリーニング - 旧バージョン）</title>
+    
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="../_static/documentation_options.js?v=565b5f0b"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="検索" href="../search.html" />
+  <link rel="next" title="WriteToHyper（出力）" href="write_to_hyper.html" />
+  <link rel="prev" title="SuperTransform（クリーニング）" href="super_transform.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">prep2dbt</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">クイック検索</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="検索" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#welcome-to-prep2dbt-s-documentation">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../overviews.html" class="reference internal ">概要</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../quickstart.html" class="reference internal ">クイックスタート</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../requirements_and_install.html" class="reference internal ">前提条件とインストール方法</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../command_usage.html" class="reference internal ">コマンドの使い方</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../convert_subcommand/convert_index.html" class="reference internal ">dbtモデル変換</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../describe_subcommand.html" class="reference internal ">統計情報の出力</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="converters_index.html" class="reference internal ">コンバーター</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../develop_guide.html" class="reference internal ">開発者ガイド</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="converters_index.html">コンバーター</a> &raquo;</li>
+    
+    <li>Container（クリーニング - 旧バージョン）</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="super_transform.html"
+       title="前の章へ">← SuperTransform（クリーニング）</a>
+  </li>
+  <li class="next">
+    <a href="write_to_hyper.html"
+       title="次の章へ">WriteToHyper（出力） →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="container">
+<h1>Container（クリーニング - 旧バージョン）<a class="headerlink" href="#container" title="Link to this heading">¶</a></h1>
+<p>旧バージョンのフローでの <a class="reference external" href="https://help.tableau.com/current/prep/ja-jp/prep_clean.htm">クリーニングステップ</a>
+の変換仕様です。</p>
+<div class="admonition caution">
+<p class="admonition-title">注意</p>
+<p>Container形式のクリーニングステップは、過去のバージョンでエクスポートされたTableau Prepフローファイルから確認されますが、
+現行最新のバージョンでは作成されないようです。</p>
+<p>そのため、Containerの変換仕様定義では、十分で広範なテストが行えませんでした。利用には注意してください。</p>
+</div>
+<section id="id2">
+<h2>フロー定義フォーマット<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;nodeType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v1.Container&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Null の削除&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;9b284447-a29c-4dde-899e-3521d9eca09b&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;baseType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;container&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;serialize&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;loomContainer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;initialNodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">        </span><span class="nt">&quot;nodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;06e71a25-be6b-481a-ad27-bd3f3be09a2f&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;nodeType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v1.AddColumn&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;columnName&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;add_col&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;expression&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[CUSTOMER_ID] + [ORDER_ID]&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Add add_col&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;06e71a25-be6b-481a-ad27-bd3f3be09a2f&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;baseType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;transform&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;nextNodes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">                </span><span class="nt">&quot;serialize&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;description&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;connections&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">        </span><span class="nt">&quot;connectionIds&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">        </span><span class="nt">&quot;nodeProperties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">        </span><span class="nt">&quot;extensibility&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;namespacesToInput&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;nodeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;06e71a25-be6b-481a-ad27-bd3f3be09a2f&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;namespacesToOutput&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;Default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;nodeId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0f08a3c5-80c5-4ddf-94af-09ed8d17c01c&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;providedParameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>グラフへの変換<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nextNodes</span></code> 属性から、次のステップへの参照を取得し、エッジを構築します。</p>
+</section>
+<section id="id4">
+<h2>カラム定義の計算<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>親ステップのカラムに対して、クリーニング操作に合わせてカラム定義を更新します。
+クリーニング操作は、 <code class="docutils literal notranslate"><span class="pre">loomContainer</span></code> 配下にあるノードに定義されています。</p>
+<p>各クリーニング操作の詳細は <a class="reference internal" href="super_transform.html"><span class="doc">SuperTransform（クリーニング）</span></a> と同じです。</p>
+<p>親ステップのカラム定義が不明の場合、自身も不明として扱います。</p>
+</section>
+<section id="sql">
+<h2>SQLへの変換<a class="headerlink" href="#sql" title="Link to this heading">¶</a></h2>
+<p>各クリーニングの操作がCTEとして作成されます。
+クリーニング操作は、 <code class="docutils literal notranslate"><span class="pre">loomContainer</span></code> 配下にあるノードに定義されています。</p>
+<p>各クリーニング操作の詳細は <a class="reference internal" href="super_transform.html"><span class="doc">SuperTransform（クリーニング）</span></a> と同じです。</p>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="super_transform.html"
+       title="前の章へ">← SuperTransform（クリーニング）</a>
+  </li>
+  <li class="next">
+    <a href="write_to_hyper.html"
+       title="次の章へ">WriteToHyper（出力） →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, tomomi.kodama.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>

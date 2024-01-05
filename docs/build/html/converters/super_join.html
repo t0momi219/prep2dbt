@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html  lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+      <title>SuperJoin（結合）</title>
+    
+          <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+          <link rel="stylesheet" href="../_static/theme.css " type="text/css" />
+      
+      <!-- sphinx script_files -->
+        <script src="../_static/documentation_options.js?v=565b5f0b"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=4dbe4bdc"></script>
+
+      
+      <!-- bundled in js (rollup iife) -->
+      <!-- <script src="../_static/theme-vendors.js"></script> -->
+      <script src="../_static/theme.js" defer></script>
+    
+  <link rel="index" title="索引" href="../genindex.html" />
+  <link rel="search" title="検索" href="../search.html" />
+  <link rel="next" title="SuperTransform（クリーニング）" href="super_transform.html" />
+  <link rel="prev" title="SuperAggregate（集計）" href="super_aggregate.html" /> 
+  </head>
+
+  <body>
+    <div id="app">
+    <div class="theme-container" :class="pageClasses"><navbar @toggle-sidebar="toggleSidebar">
+  <router-link to="../index.html" class="home-link">
+    
+      <span class="site-name">prep2dbt</span>
+    
+  </router-link>
+
+  <div class="links">
+    <navlinks class="can-hide">
+
+
+
+    </navlinks>
+  </div>
+</navbar>
+
+      
+      <div class="sidebar-mask" @click="toggleSidebar(false)">
+      </div>
+        <sidebar @toggle-sidebar="toggleSidebar">
+          
+          <navlinks>
+            
+
+
+
+            
+          </navlinks><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">クイック検索</span>
+    <div class="searchformwrapper">
+      <form class="search" action="../search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="検索" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><div class="sidebar-links" role="navigation" aria-label="main navigation">
+  
+    <div class="sidebar-group">
+      <p class="caption">
+        <span class="caption-text"><a href="../index.html#welcome-to-prep2dbt-s-documentation">Contents:</a></span>
+      </p>
+      <ul class="">
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../overviews.html" class="reference internal ">概要</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../quickstart.html" class="reference internal ">クイックスタート</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../requirements_and_install.html" class="reference internal ">前提条件とインストール方法</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../command_usage.html" class="reference internal ">コマンドの使い方</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../convert_subcommand/convert_index.html" class="reference internal ">dbtモデル変換</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../describe_subcommand.html" class="reference internal ">統計情報の出力</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="converters_index.html" class="reference internal ">コンバーター</a>
+            
+
+            
+          </li>
+
+        
+          <li class="toctree-l1 ">
+            
+              <a href="../develop_guide.html" class="reference internal ">開発者ガイド</a>
+            
+
+            
+          </li>
+
+        
+      </ul>
+    </div>
+  
+</div>
+        </sidebar>
+
+      <page>
+          <div class="body-header" role="navigation" aria-label="navigation">
+  
+  <ul class="breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+    
+      <li><a href="converters_index.html">コンバーター</a> &raquo;</li>
+    
+    <li>SuperJoin（結合）</li>
+  </ul>
+  
+
+  <ul class="page-nav">
+  <li class="prev">
+    <a href="super_aggregate.html"
+       title="前の章へ">← SuperAggregate（集計）</a>
+  </li>
+  <li class="next">
+    <a href="super_transform.html"
+       title="次の章へ">SuperTransform（クリーニング） →</a>
+  </li>
+</ul>
+  
+</div>
+<hr>
+          <div class="content" role="main" v-pre>
+            
+  <section id="superjoin">
+<h1>SuperJoin（結合）<a class="headerlink" href="#superjoin" title="Link to this heading">¶</a></h1>
+<p><a class="reference external" href="https://help.tableau.com/current/prep/ja-jp/prep_combine.htm">結合ステップ</a>
+の変換仕様です。</p>
+<section id="id2">
+<h2>フロー定義フォーマット<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;nodeType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v2018_2_3.SuperJoin&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;結合&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;d7c4fbab-1c11-4e48-bea8-b9c4ab4fa19f&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;baseType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;superNode&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;nextNodes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;namespace&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNodeId&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;aec350a4-4f33-46c5-92b5-db7f93e6cf9f&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNamespace&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Default&quot;</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;serialize&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;beforeActionAnnotations&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;afterActionAnnotations&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;actionNode&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;nodeType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v1.SimpleJoin&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;結合&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5f18418f-ba28-45ee-bf31-bc638d2c43f4&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;baseType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;transform&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;nextNodes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;serialize&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;conditions&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;leftExpression&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[CUSTOMER_ID-1]&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;rightExpression&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[CUSTOMER_ID]&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;comparator&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;==&quot;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;joinType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;left&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h2>グラフへの変換<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nextNodes</span></code> 属性から、次のステップへの参照を取得し、エッジを構築します。</p>
+</section>
+<section id="id4">
+<h2>カラム定義の計算<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>親ステップのもつカラムから計算します。親ステップのカラム定義が不明の場合、自身も不明として扱います。</p>
+<p>親ステップは２つあり、それぞれが <code class="docutils literal notranslate"><span class="pre">nextNodes.nextNamespace</span></code> 属性に <code class="docutils literal notranslate"><span class="pre">Left</span></code> か <code class="docutils literal notranslate"><span class="pre">Right</span></code> の名前を持っています。
+nextNamespaceが <code class="docutils literal notranslate"><span class="pre">Left</span></code> のステップがもつカラムと、 <code class="docutils literal notranslate"><span class="pre">Right</span></code> のステップがもつカラムの和を計算します。
+ただし、同名のカラムが両方に含まれた場合には、 <code class="docutils literal notranslate"><span class="pre">Right</span></code> のカラムを <code class="docutils literal notranslate"><span class="pre">&quot;&lt;カラム名&gt;-1&quot;</span></code> へリネームします。</p>
+<a class="reference internal image-reference" href="../_images/super_join_calculate_columns.drawio.png"><img alt="../_images/super_join_calculate_columns.drawio.png" class="align-center" src="../_images/super_join_calculate_columns.drawio.png" style="width: 600px;" /></a>
+</section>
+<section id="sql">
+<h2>SQLへの変換<a class="headerlink" href="#sql" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="../convert_subcommand/sqls.html"><span class="doc">SQLの生成</span></a> の通り、共通のCTE文作成が行われます。前処理と後処理の間に、
+以下の通り集計用のCTE文が作成されます。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="nt">&quot;actionNode&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="nt">&quot;nodeType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;.v1.SimpleJoin&quot;</span><span class="p">,</span>
+<span class="w">     </span><span class="nt">&quot;name&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;結合&quot;</span><span class="p">,</span>
+<span class="w">     </span><span class="nt">&quot;id&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5f18418f-ba28-45ee-bf31-bc638d2c43f4&quot;</span><span class="p">,</span>
+<span class="w">     </span><span class="nt">&quot;baseType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;transform&quot;</span><span class="p">,</span>
+<span class="w">     </span><span class="nt">&quot;nextNodes&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span>
+<span class="w">     </span><span class="nt">&quot;serialize&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">     </span><span class="nt">&quot;description&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">     </span><span class="nt">&quot;conditions&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span>
+<span class="w">       </span><span class="nt">&quot;leftExpression&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[CUSTOMER_ID-1]&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">&quot;rightExpression&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;[CUSTOMER_ID]&quot;</span><span class="p">,</span>
+<span class="w">       </span><span class="nt">&quot;comparator&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;==&quot;</span>
+<span class="w">     </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">     </span><span class="nt">&quot;joinType&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;left&quot;</span>
+<span class="w">   </span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">WITH</span><span class="w"> </span><span class="ss">&quot;left&quot;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="c1">-- beforeActionAnnotationsの処理</span>
+<span class="p">),</span>
+<span class="ss">&quot;right&quot;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="c1">-- beforeActionAnnotationsの処理</span>
+<span class="p">),</span>
+<span class="ss">&quot;&lt;ノードID&gt;&quot;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="ss">&quot;ID&quot;</span>
+<span class="w">        </span><span class="p">,</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="ss">&quot;ORDERS&quot;</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="ss">&quot;ORDERS&quot;</span>
+<span class="w">    </span><span class="k">FROM</span>
+<span class="w">        </span><span class="ss">&quot;left&quot;</span><span class="w"> </span><span class="k">LEFT</span><span class="w"> </span><span class="k">OUTER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="ss">&quot;right&quot;</span>
+<span class="w">        </span><span class="k">ON</span><span class="w"> </span><span class="ss">&quot;left&quot;</span><span class="p">.</span><span class="ss">&quot;[CUSTOMER_ID-1]&quot;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;right&quot;</span><span class="p">.</span><span class="ss">&quot;[CUSTOMER_ID]&quot;</span>
+<span class="p">),</span>
+<span class="ss">&quot;xxx&quot;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="c1">-- afterActionAnnotationsの処理</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Tableau Prepでの結合タイプとSQLの結合条件の変換対応は以下の通りです。</p>
+<section id="id5">
+<h3>内部<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">from</span>
+<span class="w">  </span><span class="n">left_table</span><span class="w"> </span><span class="k">inner</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">right_table</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>左<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">from</span>
+<span class="w">  </span><span class="n">left_table</span><span class="w"> </span><span class="k">left</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">right_table</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>左（不一致のみ）<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">from</span>
+<span class="w">  </span><span class="n">left_table</span><span class="w"> </span><span class="k">left</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">right_table</span>
+<span class="w">  </span><span class="k">on</span><span class="w"> </span><span class="n">left_table</span><span class="p">.</span><span class="k">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">right_table</span><span class="p">.</span><span class="k">key</span>
+<span class="k">where</span>
+<span class="w">  </span><span class="n">right_table</span><span class="p">.</span><span class="k">key</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>右<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">from</span>
+<span class="w">  </span><span class="n">right_tale</span><span class="w"> </span><span class="k">left</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">left_table</span>
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>右（不一致のみ）<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">from</span>
+<span class="w">  </span><span class="n">right_table</span><span class="w"> </span><span class="k">left</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">left_table</span>
+<span class="w">  </span><span class="k">on</span><span class="w"> </span><span class="n">left_table</span><span class="p">.</span><span class="k">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">right_table</span><span class="p">.</span><span class="k">key</span>
+<span class="k">where</span>
+<span class="w">  </span><span class="n">left_table</span><span class="p">.</span><span class="k">key</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>完全外部<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">from</span>
+<span class="w">  </span><span class="n">left_table</span><span class="w"> </span><span class="k">full</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">right_table</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>不一致のみ<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
+<div class="highlight-sql+jinja notranslate"><div class="highlight"><pre><span></span><span class="k">from</span>
+<span class="w">  </span><span class="n">left_table</span><span class="w"> </span><span class="k">full</span><span class="w"> </span><span class="k">outer</span><span class="w"> </span><span class="k">join</span><span class="w"> </span><span class="n">right_table</span>
+<span class="w">  </span><span class="k">on</span><span class="w"> </span><span class="n">left_table</span><span class="p">.</span><span class="k">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">right_table</span><span class="p">.</span><span class="k">key</span>
+<span class="k">where</span>
+<span class="w">  </span><span class="n">left_table</span><span class="p">.</span><span class="k">key</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span>
+<span class="w">  </span><span class="k">or</span><span class="w"> </span><span class="n">right_table</span><span class="p">.</span><span class="k">key</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">null</span>
+</pre></div>
+</div>
+<p>また、結合条件の式の対応は、以下の通りです。</p>
+<table class="docutils align-left">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tableau上の式</p></th>
+<th class="head"><p>変換後のSQL</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>'=='</p></td>
+<td><p>=</p></td>
+</tr>
+<tr class="row-odd"><td><p>'!='</p></td>
+<td><p>!=</p></td>
+</tr>
+<tr class="row-even"><td><p>'&gt;'</p></td>
+<td><p>&gt;</p></td>
+</tr>
+<tr class="row-odd"><td><p>'&gt;='</p></td>
+<td><p>&gt;=</p></td>
+</tr>
+<tr class="row-even"><td><p>'&lt;'</p></td>
+<td><p>&lt;</p></td>
+</tr>
+<tr class="row-odd"><td><p>'&lt;='</p></td>
+<td><p>&lt;=</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+          </div>
+          <div class="page-nav">
+            <div class="inner"><ul class="page-nav">
+  <li class="prev">
+    <a href="super_aggregate.html"
+       title="前の章へ">← SuperAggregate（集計）</a>
+  </li>
+  <li class="next">
+    <a href="super_transform.html"
+       title="次の章へ">SuperTransform（クリーニング） →</a>
+  </li>
+</ul><div class="footer" role="contentinfo">
+      &#169; Copyright 2023, tomomi.kodama.
+    <br>
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 7.2.6 with <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a> 0.8.0.
+</div>
+            </div>
+          </div>
+      </page>
+    </div></div>
+    
+    
+  </body>
+</html>
